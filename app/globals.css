@@ -1,0 +1,98 @@
+@import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css');
+@import "tailwindcss";
+
+/* ── 디자인 토큰 ─────────────────────────────────────────────── */
+:root {
+  /* 배경 */
+  --bg-base:    #0d0d0d;
+  --bg-surface: #161616;
+  --bg-card:    #1c1c1c;
+  --bg-input:   #222222;
+
+  /* 텍스트 */
+  --text-primary:   #f0f0f0;
+  --text-secondary: #888888;
+  --text-muted:     #555555;
+
+  /* 기능 컬러 */
+  --color-correct:  #22c55e; /* green-500 */
+  --color-wrong:    #ef4444; /* red-500   */
+  --color-hint:     #facc15; /* yellow-400 */
+  --color-locked:   #333333;
+
+  /* 모드 액센트 */
+  --accent-idiom:   #60a5fa; /* 파랑  — 사자성어 */
+  --accent-proverb: #a78bfa; /* 보라  — 속담    */
+  --accent-retro:   #fb923c; /* 오렌지 — 레트로 */
+  --accent-hanja:   #34d399; /* 에메랄드 — 한자 */
+  --accent-person:  #f472b6; /* 핑크  — 인물    */
+  --accent-trivia:  #38bdf8; /* 하늘  — 상식    */
+  --accent-mixed:   #c084fc; /* 라일락 — 혼합   */
+}
+
+@theme inline {
+  --color-background: var(--bg-base);
+  --color-foreground: var(--text-primary);
+  --font-sans: 'Pretendard Variable', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --font-mono: 'Pretendard Variable', monospace;
+}
+
+/* ── 기본 리셋 ───────────────────────────────────────────────── */
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+html {
+  scrollbar-gutter: stable;
+}
+
+body {
+  background: var(--bg-base);
+  color: var(--text-primary);
+  font-family: 'Pretendard Variable', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* ── 공통 유틸 ───────────────────────────────────────────────── */
+.hint-card-enter {
+  animation: hintSlideIn 0.4s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+@keyframes hintSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.result-enter {
+  animation: resultFadeUp 0.5s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+@keyframes resultFadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* 스크롤바 커스텀 */
+::-webkit-scrollbar {
+  width: 4px;
+}
+::-webkit-scrollbar-track {
+  background: var(--bg-base);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--bg-card);
+  border-radius: 2px;
+}
