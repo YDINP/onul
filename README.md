@@ -42,3 +42,19 @@ npm run build
 NEXT_PUBLIC_SUPABASE_URL=...
 NEXT_PUBLIC_SUPABASE_ANON_KEY=...
 ```
+
+## AdSense
+
+환경변수 없이도 빌드/실행이 정상 동작한다.
+
+- `NEXT_PUBLIC_ADSENSE_CLIENT` 미설정 + 프로덕션 → 광고 영역 미렌더(클린)
+- `NEXT_PUBLIC_ADSENSE_CLIENT` 미설정 + 개발(`NODE_ENV!=='production'`) → 점선 플레이스홀더 박스만 표시
+- `NEXT_PUBLIC_ADSENSE_CLIENT` 설정됨 → 실제 AdSense 광고 유닛 렌더
+
+**승인 후 활성화 절차:**
+
+1. Google AdSense 계정에서 이 사이트를 등록하고 승인받는다.
+2. AdSense 대시보드에서 광고 유닛을 생성해 `ca-pub-XXXX`(게시자 ID)와 슬롯 ID를 확보한다.
+3. Vercel 프로젝트 → Settings → Environment Variables에 `NEXT_PUBLIC_ADSENSE_CLIENT`와 `NEXT_PUBLIC_ADSENSE_SLOT_RESULT`를 추가하고 재배포한다.
+
+`/ads.txt` 경로는 env 설정 시 자동으로 올바른 내용을 반환한다.

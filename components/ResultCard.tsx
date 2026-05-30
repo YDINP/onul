@@ -3,6 +3,7 @@
 import type { GameState, PuzzleMode } from '@/lib/engine/types'
 import type { PuzzleStats } from '@/lib/stats'
 import { getModeInfo } from './ModeConfig'
+import AdSlot from './AdSlot'
 
 interface ResultCardProps {
   state: GameState
@@ -209,6 +210,9 @@ export default function ResultCard({
               {countdown}
             </span>
           </div>
+
+          {/* AdSense 광고 슬롯 */}
+          <AdSlot className="mt-4" />
         </div>
       </div>
     </div>
