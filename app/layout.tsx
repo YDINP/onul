@@ -3,8 +3,24 @@ import Script from "next/script";
 import "./globals.css";
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://onul.vercel.app"),
   title: "오늘의 한 판 — 데일리 추리 게임",
   description: "매일 새로운 추리 퍼즐. 힌트를 모아 정답을 맞혀보세요!",
+  openGraph: {
+    title: "오늘의 한 판 — 하루 한 판, 한국어 추리 게임",
+    description:
+      "5단계 힌트로 추리하고 결과를 친구와 공유하세요. 오늘의 퍼즐에 도전!",
+    url: "https://onul.vercel.app",
+    siteName: "오늘의 한 판",
+    locale: "ko_KR",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "오늘의 한 판 — 하루 한 판, 한국어 추리 게임",
+    description:
+      "5단계 힌트로 추리하고 결과를 친구와 공유하세요. 오늘의 퍼즐에 도전!",
+  },
 };
 
 const adsenseClient = process.env.NEXT_PUBLIC_ADSENSE_CLIENT;

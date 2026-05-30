@@ -22,7 +22,7 @@ export default function AdSlot({ slot, className }: AdSlotProps) {
   const resolvedSlot = slot ?? defaultSlot ?? ''
 
   useEffect(() => {
-    if (!client) return
+    if (!client || !resolvedSlot) return
     if (pushed.current) return
     pushed.current = true
     try {
@@ -32,13 +32,18 @@ export default function AdSlot({ slot, className }: AdSlotProps) {
     }
   }, [])
 
-  // env 없음 + 프로덕션 → 렌더 안 함
-  if (!client && process.env.NODE_ENV === 'production') {
+  // 광고 유닛이 준비되지 않음(게시자 ID 또는 슬롯 ID 미설정)
+  // - 헤드 로더 스크립트(layout)는 client만 있으면 로드되어 사이트 검증/Auto ads에 사용됨
+  // - 수동 <ins> 유닛은 client + slot 둘 다 있어야 렌더
+  const ready = Boolean(client && resolvedSlot)
+
+  // 미준비 + 프로덕션 → 렌더 안 함
+  if (!ready && process.env.NODE_ENV === 'production') {
     return null
   }
 
-  // env 없음 + 개발 → 점선 플레이스홀더
-  if (!client) {
+  // 미준비 + 개발 → 점선 플레이스홀더
+  if (!ready) {
     return (
       <div
         className={className}
