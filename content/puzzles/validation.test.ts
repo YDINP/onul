@@ -99,4 +99,30 @@ describe('puzzle validation gate', () => {
       `date 형식 위반 퍼즐: ${violations.map((p) => `${p.id}(date="${p.date}")`).join(', ')}`
     ).toHaveLength(0)
   })
+
+  it('info: 모든 퍼즐에 존재', () => {
+    const violations = allPuzzles.filter((p) => !p.info)
+    expect(violations, `info가 없는 퍼즐: ${violations.map((p) => p.id).join(', ')}`).toHaveLength(0)
+  })
+
+  it('info.summary: 비어있지 않음', () => {
+    const violations = allPuzzles.filter(
+      (p) => p.info && (!p.info.summary || p.info.summary.trim() === '')
+    )
+    expect(violations, `info.summary가 비어있는 퍼즐: ${violations.map((p) => p.id).join(', ')}`).toHaveLength(0)
+  })
+
+  it('info.facts: 1개 이상의 비어있지 않은 항목', () => {
+    const violations = allPuzzles.filter(
+      (p) =>
+        p.info &&
+        (!Array.isArray(p.info.facts) ||
+          p.info.facts.length < 1 ||
+          p.info.facts.some((f) => !f || f.trim() === ''))
+    )
+    expect(
+      violations,
+      `info.facts가 유효하지 않은 퍼즐: ${violations.map((p) => p.id).join(', ')}`
+    ).toHaveLength(0)
+  })
 })
