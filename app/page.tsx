@@ -202,6 +202,7 @@ export default function Home() {
             stats={stats}
             countdown={countdown}
             puzzleNumber={puzzleNumber}
+            puzzle={puzzle}
           />
         )}
 

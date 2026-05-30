@@ -1,9 +1,10 @@
 'use client'
 
-import type { GameState, PuzzleMode } from '@/lib/engine/types'
+import type { GameState, Puzzle, PuzzleMode } from '@/lib/engine/types'
 import type { PuzzleStats } from '@/lib/stats'
 import { getModeInfo } from './ModeConfig'
 import AdSlot from './AdSlot'
+import InfoCard from './InfoCard'
 
 interface ResultCardProps {
   state: GameState
@@ -13,6 +14,7 @@ interface ResultCardProps {
   stats: PuzzleStats | null
   countdown: string
   puzzleNumber: number
+  puzzle: Puzzle
 }
 
 /** retro 모드 세대 배지 계산 */
@@ -38,6 +40,7 @@ export default function ResultCard({
   stats,
   countdown,
   puzzleNumber,
+  puzzle,
 }: ResultCardProps) {
   const modeInfo = getModeInfo(mode)
   const won = state.status === 'won'
@@ -115,6 +118,9 @@ export default function ResultCard({
               {answer}
             </span>
           </div>
+
+          {/* 단어 정보 카드 */}
+          <InfoCard puzzle={puzzle} />
 
           {/* retro 세대 배지 */}
           {retroBadge && (
