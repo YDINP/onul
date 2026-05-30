@@ -21,6 +21,14 @@ export const metadata: Metadata = {
     description:
       "5단계 힌트로 추리하고 결과를 친구와 공유하세요. 오늘의 퍼즐에 도전!",
   },
+  // AdSense 사이트 소유권 확인용 메타 태그 (게시자 ID 설정 시에만 렌더)
+  ...(process.env.NEXT_PUBLIC_ADSENSE_CLIENT
+    ? {
+        other: {
+          "google-adsense-account": process.env.NEXT_PUBLIC_ADSENSE_CLIENT,
+        },
+      }
+    : {}),
 };
 
 const adsenseClient = process.env.NEXT_PUBLIC_ADSENSE_CLIENT;
