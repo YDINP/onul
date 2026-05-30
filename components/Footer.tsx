@@ -12,6 +12,12 @@ export default function Footer() {
             소개
           </Link>
           <Link
+            href="/archive"
+            className="hover:text-white/70 transition-colors"
+          >
+            아카이브
+          </Link>
+          <Link
             href="/privacy"
             className="hover:text-white/70 transition-colors"
           >
