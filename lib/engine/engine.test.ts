@@ -246,7 +246,7 @@ describe('buildShareGrid', () => {
     expect(result).toContain('🟩')
     expect(result).toContain('2힌트 클리어')
     expect(result).toContain('80')
-    expect(result).toContain('https://onul.app')
+    expect(result).toContain('https://onul.vercel.app')
   })
 
   it('lost 상태 — 미해결 표시', () => {
@@ -260,7 +260,7 @@ describe('buildShareGrid', () => {
     expect(result).toContain('오늘의 한 판 #143')
     expect(result).toContain('🟥')
     expect(result).toContain('미해결')
-    expect(result).toContain('https://onul.app')
+    expect(result).toContain('https://onul.vercel.app')
   })
 
   it('won 상태 — avgHints 줄 포함', () => {

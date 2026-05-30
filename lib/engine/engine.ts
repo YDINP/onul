@@ -120,13 +120,13 @@ export function revealNextHint(state: GameState): GameState {
  *   🟨🟩
  *   2힌트 클리어 | 점수 80
  *   평균 2.5힌트
- *   https://onul.app
+ *   https://onul.vercel.app
  *
  * 예시 (lost):
  *   오늘의 한 판 #142
  *   🟥🟥🟥🟥🟥
  *   미해결
- *   https://onul.app
+ *   https://onul.vercel.app
  */
 export function buildShareGrid(
   state: GameState,
@@ -152,6 +152,6 @@ export function buildShareGrid(
     lines.push(`평균 ${avgHints}힌트`)
   }
 
-  lines.push('https://onul.app')
+  lines.push('https://onul.vercel.app')
   return lines.join('\n')
 }
