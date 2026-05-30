@@ -6,6 +6,8 @@ export interface PuzzleStats {
   solveRate: number
   avgHints: number | null
   topPercent: number | null
+  /** 힌트별 클리어 분포: [1힌트, 2힌트, 3힌트, 4힌트, 5힌트, 실패] — 6개 */
+  distribution: number[]
 }
 
 /** localStorage에서 세션 ID를 가져오거나 새로 생성한다. SSR 환경에서는 빈 문자열 반환. */
@@ -78,6 +80,9 @@ export async function getPuzzleStats(
       solveRate: Number(row.solve_rate),
       avgHints: row.avg_hints !== null && row.avg_hints !== undefined ? Number(row.avg_hints) : null,
       topPercent: row.top_percent !== null && row.top_percent !== undefined ? Number(row.top_percent) : null,
+      distribution: Array.isArray(row.distribution)
+        ? (row.distribution as unknown[]).map(Number)
+        : [0, 0, 0, 0, 0, 0],
     }
   } catch {
     return null

@@ -32,6 +32,9 @@ import HintArea from '@/components/HintArea'
 import GuessHistory from '@/components/GuessHistory'
 import InputArea from '@/components/InputArea'
 import ResultCard from '@/components/ResultCard'
+import HowToPlay from '@/components/HowToPlay'
+
+const HOWTO_STORAGE_KEY = 'onul_seen_howto'
 
 // 결정론적 — SSR/클라이언트 모두 동일
 const today = getTodayKST()
@@ -54,6 +57,7 @@ export default function Home() {
   const [countdown, setCountdown] = useState<string>('')
   const [alreadyPlayed, setAlreadyPlayed] = useState(false)
   const [mounted, setMounted] = useState(false)
+  const [howToOpen, setHowToOpen] = useState(false)
   const recordedRef = useRef(false)
 
   // ── 마운트 후 localStorage 하이드레이션 ───────────────────────
@@ -67,6 +71,11 @@ export default function Home() {
 
     // 하루 1회 잠금 여부
     setAlreadyPlayed(hasPlayedToday(today))
+
+    // 첫 방문 시 게임 방법 모달 자동 표시
+    if (!localStorage.getItem(HOWTO_STORAGE_KEY)) {
+      setHowToOpen(true)
+    }
 
     setMounted(true)
   }, []) // eslint-disable-line react-hooks/exhaustive-deps
@@ -120,6 +129,11 @@ export default function Home() {
     saveDayState(today, next)
   }
 
+  function handleHowToClose() {
+    localStorage.setItem(HOWTO_STORAGE_KEY, '1')
+    setHowToOpen(false)
+  }
+
   const isFinished = state.status !== 'playing'
   // mounted 전에는 isLocked를 false로 유지 → 서버/초기 렌더 일치
   const isLocked = mounted && alreadyPlayed && state.status === 'playing'
@@ -133,13 +147,52 @@ export default function Home() {
       <div className="w-full max-w-[480px] mx-auto flex flex-col flex-1">
 
         {/* 헤더 — mounted 전엔 스트릭 배지 숨김(progress=기본값이라 자동으로 미표시) */}
-        <GameHeader
-          puzzleNumber={puzzleNumber}
-          mode={puzzle.mode}
-          difficulty={puzzle.difficulty}
-          today={today}
-          progress={mounted ? progress : DEFAULT_PROGRESS}
-        />
+        <div style={{ position: 'relative' }}>
+          <GameHeader
+            puzzleNumber={puzzleNumber}
+            mode={puzzle.mode}
+            difficulty={puzzle.difficulty}
+            today={today}
+            progress={mounted ? progress : DEFAULT_PROGRESS}
+          />
+          {/* 도움말 버튼 — 우상단 고정 */}
+          <button
+            onClick={() => setHowToOpen(true)}
+            aria-label="게임 방법 보기"
+            title="게임 방법"
+            style={{
+              position: 'absolute',
+              top: '20px',
+              right: '16px',
+              width: '32px',
+              height: '32px',
+              borderRadius: '50%',
+              border: '1px solid var(--bg-card)',
+              background: 'var(--bg-surface)',
+              color: 'var(--text-secondary)',
+              cursor: 'pointer',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              fontSize: '0.875rem',
+              fontWeight: 700,
+              lineHeight: 1,
+              transition: 'border-color 0.15s, color 0.15s',
+            }}
+            onMouseEnter={(e) => {
+              const btn = e.currentTarget as HTMLButtonElement
+              btn.style.borderColor = 'var(--text-muted)'
+              btn.style.color = 'var(--text-primary)'
+            }}
+            onMouseLeave={(e) => {
+              const btn = e.currentTarget as HTMLButtonElement
+              btn.style.borderColor = 'var(--bg-card)'
+              btn.style.color = 'var(--text-secondary)'
+            }}
+          >
+            ?
+          </button>
+        </div>
 
         {/* 구분선 */}
         <div
@@ -207,6 +260,11 @@ export default function Home() {
         )}
 
       </div>
+
+      {/* 게임 방법 모달 — mounted 이후에만 렌더 (SSR 안전) */}
+      {mounted && (
+        <HowToPlay open={howToOpen} onClose={handleHowToClose} />
+      )}
     </div>
   )
 }

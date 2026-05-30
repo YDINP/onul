@@ -5,6 +5,7 @@ import type { PuzzleStats } from '@/lib/stats'
 import { getModeInfo } from './ModeConfig'
 import AdSlot from './AdSlot'
 import InfoCard from './InfoCard'
+import DistributionChart from './DistributionChart'
 
 interface ResultCardProps {
   state: GameState
@@ -170,6 +171,21 @@ export default function ResultCard({
                 />
               )}
             </div>
+          )}
+
+          {/* 힌트 분포 차트 */}
+          {stats && stats.distribution && stats.distribution.length > 0 && (
+            <DistributionChart
+              distribution={stats.distribution}
+              playerBucket={
+                state.status === 'won'
+                  ? state.hintsRevealed
+                  : state.status === 'lost'
+                    ? 0
+                    : null
+              }
+              accent={modeInfo.accentHex}
+            />
           )}
 
           {/* 이모지 그리드 공유 미리보기 */}

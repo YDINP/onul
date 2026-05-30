@@ -1,5 +1,6 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import Script from "next/script";
+import Footer from "../components/Footer";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -31,7 +32,21 @@ export const metadata: Metadata = {
     : {}),
 };
 
+export const viewport: Viewport = {
+  themeColor: "#0d0d0d",
+};
+
 const adsenseClient = process.env.NEXT_PUBLIC_ADSENSE_CLIENT;
+
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": ["WebApplication", "WebSite"],
+  name: "오늘의 한 판",
+  url: "https://onul.vercel.app",
+  description: "하루 한 판, 5단계 힌트로 정답을 추리하는 한국어 데일리 추리 게임",
+  inLanguage: "ko-KR",
+  applicationCategory: "GameApplication",
+};
 
 export default function RootLayout({
   children,
@@ -41,7 +56,14 @@ export default function RootLayout({
   return (
     <html lang="ko" className="h-full">
       <body className="min-h-full flex flex-col antialiased">
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify(jsonLd).replace(/</g, "\\u003c"),
+          }}
+        />
         {children}
+        <Footer />
         {adsenseClient && (
           <Script
             async
